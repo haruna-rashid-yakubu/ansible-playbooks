@@ -1,0 +1,36 @@
+#################################control-plane ansible ############################################################
+FROM marwaney/ssh-server
+WORKDIR /sshconfig
+
+########################################## Installation de ansible  ###############################################
+
+
+RUN sudo apt install python3-pip -y  
+RUN sudo python3 -m pip install --user ansible -y  && sudo apt install ansible -y 
+
+
+########################################### Geerating necessary files ################################################
+
+
+RUN mkdir keys scripts 
+COPY sshkey keys/sshkey
+COPY docker-compose.yml docker-compose.yml
+COPY entrypoint.sh scripts/entrypoint.sh
+RUN chmod +x mkdir keys scripts 
+
+
+########################################## installing docker-cli && docker utils for dind ###########################
+
+
+RUN sudo apt-get install \
+    ca-certificates \
+    curl \
+    gnupg
+
+RUN sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin 
+
+RUN sudo apt install docker-compose
+
+############################################# starting ansible script and ssh-server daemon##########################
+
+CMD [ "/sshconfig/scripts/entrypoint.sh" ]

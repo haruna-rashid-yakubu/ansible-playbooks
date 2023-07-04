@@ -1,0 +1,19 @@
+[containera]
+172.22.0.2
+
+[containerb]
+172.21.0.2
+
+# le group containers contient le groupe a et b
+
+[containers:children]
+containera
+containerb
+
+# setting up des variables pour le group containers
+
+[containers:vars]
+ansible_user=sshuser
+ansible_ssh_private_key_file=/home/vagrant/.ssh/docker
+ansible_sudo_pass=none
+

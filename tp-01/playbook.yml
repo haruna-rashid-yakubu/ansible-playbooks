@@ -1,0 +1,10 @@
+---
+  - name: Playbook
+    hosts: all
+    become: yes
+    tasks:
+      - name: creation d'un dossier .
+        ansible.builtin.file:
+          path: /testdir
+          state: directory
+          mode: '0755'

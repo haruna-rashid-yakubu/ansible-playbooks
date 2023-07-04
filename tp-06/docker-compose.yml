@@ -1,0 +1,54 @@
+# version: "3.9"
+# services:
+#   container-1:
+#     container_name: container-1
+#     build: . 
+#     networks:
+#       - network-1
+#   container-2:
+#     container_name: container-2
+#     build: .
+#     networks: 
+#       - network-1
+
+#   container-3:
+#     container_name: container-3
+#     build: .
+#     networks: 
+#       - network-2
+#   container-4:
+#     container_name: container-4
+#     build: . 
+#     networks:
+#       - network-2
+
+#   container-5:
+#     container_name: container-5
+#     build: .
+#     networks: 
+#       - network-5    
+#   container-6:
+#     container_name: container-6
+#     build: .
+#     networks: 
+#       - network-6 
+
+# networks:
+#   network-1:
+#     name: network-1
+
+#   network-2: 
+#     name: network-2 
+  
+#   network-3: 
+#     name: network-3
+
+version: "3.9"
+services:
+  controlnode:
+    container_name: controlnode
+    build: 
+      context: ./dockerfiles
+      dockerfile: control-dockerfile
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

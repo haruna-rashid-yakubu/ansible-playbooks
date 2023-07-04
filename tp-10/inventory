@@ -1,0 +1,9 @@
+[group1]
+container-1 ansible_host=172.20.0.3
+container-2 ansible_host=172.20.0.2
+[group2]
+container-3 ansible_host=172.20.0.5
+container-4 ansible_host=172.20.0.4
+[group3]
+container-3 ansible_host=172.20.0.6
+container-4 ansible_host=172.20.0.7

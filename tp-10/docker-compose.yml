@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  container-1:
+     
+    build: .
+    restart: always
+    container_name: container1
+    ports:
+      - "3001:22"
+  container-2:
+    build: .
+    restart: always
+    container_name: container2    
+    ports:
+      - "3002:22"
+  container-3:
+    build: .
+    restart: always
+    container_name: container3    
+    ports:
+      - "3003:22"
+  container-4:
+    build: .
+    restart: always
+    container_name: container4    
+    ports:
+      - "3004:22"

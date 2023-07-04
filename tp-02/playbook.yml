@@ -1,0 +1,16 @@
+---
+- name: installation du serveur Apache . 
+  hosts: all 
+  become: true 
+
+  tasks: 
+    - name: installation d'apache .
+      apt: 
+        name: httpd
+        state: present 
+    
+    - name: demarrage du serveur Apache .
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: true

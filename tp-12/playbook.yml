@@ -1,0 +1,27 @@
+---
+- name: Serve file using apache
+  hosts: all
+  vars:
+    ansible_bender:
+      base_image: "docker.io/library/python:3-alpine"
+      target_image:
+        name: test:0.1
+        cmd: httpd -DFOREGROUND
+        ports: ["80"]
+      squash: true
+
+- name: Serve our file using httpd
+  hosts: all
+  tasks:
+  - name: Install httpd
+    package:
+      name:
+        - apache2
+        - libxml2-dev
+        - apache2-utils
+      state: installed
+  - name: Copy
+    copy:
+      src: file.html
+      dest: /var/www/html/
+

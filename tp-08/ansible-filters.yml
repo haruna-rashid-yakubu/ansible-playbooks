@@ -1,0 +1,32 @@
+--- 
+  - name: "Templating with Jinja2 and filters string manipulation, substitute and filters " 
+    hosts: localhost 
+    vars: 
+      - nom: Harouna
+      - default: default_name 
+      # - galaxy_api_key: "{{ undef(hint='Fuck you') }}"
+
+    tasks: 
+      - name: "substitution"
+        ansible.builtin.debug:
+          msg: le message "{{ nom }}"
+      
+      - name: "upper filter"
+        ansible.builtin.debug:
+          msg: le message "{{ nom | upper }}"
+
+      - name: "lower filter"
+        ansible.builtin.debug:
+          msg: le message "{{ nom | lower  }}"
+      
+      - name: "title filter"
+        ansible.builtin.debug:
+          msg: le message "{{ nom | title }}"
+
+      - name: "default filter"
+        ansible.builtin.debug:
+          msg: le message "{{ nom | default ("rachid") }}"
+      
+      - name: "title filter"
+        ansible.builtin.debug:
+          msg: le message "{{ nom | replace ("Harouna", "Rashid") | upper | lower }}"

@@ -1,0 +1,31 @@
+--- 
+  - name: "Working with conditionnals" 
+    hosts: localhost 
+    vars: 
+      - nom: Harouna
+      - default: default_name 
+    
+      # - galaxy_api_key: "{{ undef(hint='Fuck you') }}"
+    become: true
+    tasks: 
+
+      - name: "substitution"
+        ansible.builtin.debug:
+          var:  ansible_facts.distribution | lower
+
+      - name: "create home file only if hostname equal to fedora"
+        ansible.builtin.file:
+          path: /testdir
+          state: directory
+          mode: '0755'
+        when: ansible_facts.env.HOSTNAME == "fedora" 
+
+
+      - name: "create home file only if hostname equal to fedora"
+        ansible.builtin.file:
+          path: /testdir/harouna.txt
+          state: touch
+          mode: '0755'
+          
+        when:  (ansible_facts.distribution | lower  == "fedora" and ansible_facts.distribution_major_version == "38" ) 
+        

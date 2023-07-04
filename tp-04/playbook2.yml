@@ -1,0 +1,9 @@
+--- 
+- name: play d'essai des fichiers 
+  hosts: 127.0.0.1
+  become: yes
+  vars_files:
+    - vars_file.yml
+  tasks: 
+    - ansible.builtin.debug:
+        msg: "la valeur de la variable os est {{ os }} "

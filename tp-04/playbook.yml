@@ -1,0 +1,23 @@
+---
+- name: Creation d'une variable d'environnement globale
+  hosts: 127.0.0.1
+  become: yes
+  tasks:
+    - name: creation d'une variable d'environnement globale .
+      ansible.builtin.lineinfile:
+        path: ~/patate.tx
+        line: MY_VAR=harouna
+        create: true
+
+   # erreur au niveau de source
+
+    - name: Obtention de la valeur de la variable
+      ansible.builtin.shell: source ~/.bashrc && echo $MY_VAR
+      register: variable
+
+    # E/S sous linux stdout , stdin, stderr
+
+    - name: affichage de la sortie
+      debug:
+        msg: "la valeur de ma variable est {{ variable.stdout }}"
+    

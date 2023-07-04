@@ -1,0 +1,62 @@
+---
+- name: "playing with jinja2"
+  hosts: all
+  become: true
+  tasks: 
+  #Ecrire un playbook qui dans chaque container va créer un fichier (hosts_list) dns le home de l'utilisateur 
+    - name: "Creating the folder"
+      file:
+        path: /home/sshuser/tests
+        state: directory  
+        
+    - name: Créer un fichier
+      file:
+        path: /home/sshuser/hosts_list 
+        state: touch 
+
+
+    - name: "using ansible builtin instructions" 
+      lineinfile:
+        path: /home/sshuser/hosts_list
+        line: |
+           [{{ inventory_hostname }}]
+           {{ hostvars[item].ansible_host }}  {{ group_names[0] }}
+        create: yes  
+      loop: "{{ groups[group_names[0]]  }}"
+      when: group_names != groups[group_names[0]]
+
+    
+    - name: "using templating power"
+      ansible.builtin.lineinfile:
+        path: /home/sshuser/hosts_list2 
+        line: | 
+          {% for item in groups[group_names[0]] %}
+          {% if group_names != groups[group_names[0]] %}
+          [{{ inventory_hostname }}]
+          {{ hostvars[item].ansible_host }}  {{ group_names[0] }}
+          {% endif %}
+          {% endfor %}
+        create: yes
+    
+    
+    - name: Formattage
+      copy:
+        dest: /home/sshuser/rashid
+        content: |
+          [{{ inventory_hostname }}]
+          {{ hostvars[item].ansible_host }}
+      loop: "{{ groups[group_names[0]]  }}"
+      when: group_names != groups[group_names[0]]
+
+    - name: "other hosts"
+      lineinfile:
+        path: /home/sshuser/hosts_list
+        line: | 
+          {% for item in groups[group_names[0]] %}
+          {% if ansible_host != hostvars[item].ansible_host %}
+          [{{ inventory_hostname }}]
+          {{ hostvars[item].ansible_host }}  {{ group_names[0] }}
+          {% endif %}
+          {% endfor %}
+        create: yes
+      

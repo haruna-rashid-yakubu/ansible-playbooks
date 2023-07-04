@@ -1,0 +1,27 @@
+---
+- name: playbook de deploiement d'une application nodejs à partir d'un repository GiT 
+  hosts: 127.0.0.1
+  become: yes
+  vars: 
+    GIT_REPO:  
+  pre_tasks:
+    - name: install dependencies before starting
+      become: yes
+      register: aptinstall
+      dnf:
+        name:
+          - nodejs
+          - npm
+          - git
+        state: latest
+        update_cache: yes
+
+    - name: validate the nodejs installation
+      debug: msg="Installation of node is Successfull {{ aptinstall }}"
+  tasks:
+    - name: pulling git repository 
+      ansible.builtin.git:
+        repo: 'https://github.com/BigBoyForLive/wy-react-vite-ts.git'
+        dest: ~/app
+        version: 3f379255c375e493f7c819dcf502283ec4170cff
+      

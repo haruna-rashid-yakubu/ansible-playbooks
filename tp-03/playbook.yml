@@ -1,0 +1,28 @@
+---
+- name: installation du serveur Apache .
+  hosts: all
+  become: true
+
+  handlers:
+    - name: redemarrage d'apache
+      service:
+        name: httpd
+        state: restarted
+
+  tasks:
+    - name: installation d'apache .
+      apt:
+        name: httpd
+        state: present
+
+    - name: copie de fichiers de config . 
+      ansible.builtin.copy:
+        src: 000-default.conf 
+        dest: /etc/apache2/sites-available/000-default.conf
+      notify: redemarrage d'apache
+
+    - name: demarrage du serveur Apache .
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: true
